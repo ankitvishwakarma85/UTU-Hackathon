@@ -1,9 +1,9 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.models import User
-from .models import News, Company, Query
+from .models import News, Company, Query, Enrolled
 # Create your views here.
 import matplotlib.pyplot as plt
 import io
@@ -80,6 +80,17 @@ def dashboard(request):
 class CompanyDetailView(DetailView):
     model = Company
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company = get_object_or_404(Company, id = self.kwargs.get('pk'))
+        user = self.request.user
+        en = Enrolled.objects.filter(student = user, company = company)
+        if len(en)==0:
+            context['check'] = True
+        else:
+            context['check'] = False 
+        return context
+
 class CompanyQueryListView(ListView):
     model = Query
     template_name = 'TPO/company_queries.html' #<app><model>_<viewtype>.html
@@ -130,3 +141,20 @@ class QueryDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
         if self.request.user == query.student:
             return True
         return False
+'''
+class EnrolledCreateView(LoginRequiredMixin, CreateView):
+    
+    model = Enrolled
+    template_name = 'TPO/enrolled_form.html' #<app><model>_<viewtype>.html
+    context_object_name = 'enrolled'
+    success_url = '/'
+    fields = ['date_applied']
+    def form_valid(self,form):
+        form.instance.student = self.request.user
+        form.instance.company = Company.objects.get(title=self.kwargs.get('title'))
+        return super().form_valid(form)
+'''
+
+def enrolled(request,title):
+    enrolled = Enrolled.objects.create(student = request.user, company = Company.objects.get(title = title) )
+    return redirect('TPO-home')

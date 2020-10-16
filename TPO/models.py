@@ -45,8 +45,4 @@ class Enrolled(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, blank= True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, blank= True, null=True)
 
-    def __str__(self):
-        return self.date_applied
-
-
     

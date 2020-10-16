@@ -10,6 +10,7 @@ urlpatterns = [
     path('news/<int:pk>/', NewsDetailView.as_view() , name = 'news-detail'),
     path('company/<int:pk>/', CompanyDetailView.as_view() , name = 'company-detail'),
     path('company/<str:title>', CompanyQueryListView.as_view() , name = 'company-queries'),
+    path('enrolled/<str:title>/', views.enrolled , name = 'enrolled-create'),
     path('query/<str:title>/new/', QueryCreateView.as_view() , name = 'query-create'),
     path('query/<int:pk>/update/', QueryUpdateView.as_view() , name = 'query-update'),
     path('query/<int:pk>/delete/', QueryDeleteView.as_view() , name = 'query-delete'),

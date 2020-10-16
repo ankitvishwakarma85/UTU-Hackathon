@@ -76,9 +76,15 @@
         <h2 class="article-title">{{ object.title }}</h2>
         <p class="article-content">{{ object.description }}</p>
         <p class="article-content">{{ object.Eligibility }}</p>
-        {% if object.Status == "Open" %}
+        
         <div class="cntr" ,align="center">
-            <button>APPLY</button>
+        {% if object.Status == "Open" %}
+            {% if check %}
+            <a href="{% url 'enrolled-create' object.title %}"><button>APPLY</button></a>
+            {% else %}
+            <br>
+            <h3 style = "color:green" class="article-content">Already Applied!</h3>
+            {% endif %}
         {% endif %} 
         <a href="{% url 'company-queries' object.title %}"><button>View Queries</button></a>
         <a href="{% url 'query-create' object.title %}"><button>Create Queries</button></a>
