@@ -4,6 +4,7 @@ from django.views.generic import ListView,DetailView,CreateView,UpdateView,Delet
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.models import User
 from .models import News, Company, Query, Enrolled
+import numpy as np
 # Create your views here.
 import matplotlib.pyplot as plt
 import io
@@ -47,7 +48,40 @@ def analytics(request):
     buf2.seek(0)
     st=base64.b64encode(buf2.read())
     url2=urllib.parse.quote(st)
-    return render(request,"TPO/analytics.html",{"bar":url,"pie":url1,"bar1":url2})
+
+    plt.clf()
+    data = [[30, 25, 50, 20],
+    [40, 23, 51, 17],
+    [30, 18, 40, 19],
+    [32, 21, 43, 14],
+    [38, 16, 52, 20]]
+    # [32, 20, 48, 24]]
+
+    legend = ['ETRX','EXTC','IT','COMPS','MCA']
+    labels = ['2016-17','2017-18','2018-19','2019-20']
+    X = np.arange(4)
+    fig = plt.figure()
+    ax = fig.add_axes([0.05,0.05,0.95,0.95])
+    ax.set_xticks(X)
+    ax.bar(X + 0.00, data[0], width = 0.10)
+    ax.bar(X + 0.12, data[1], width = 0.10)
+    ax.bar(X + 0.24, data[2], width = 0.10)
+    ax.bar(X + 0.36, data[3], width = 0.10)
+    ax.bar(X + 0.48, data[4], width = 0.10)
+    # ax.bar(X + 0.6, data[5], width = 0.10)
+    ax.set_xticks(X)
+    ax.set_xticklabels(labels)
+    ax.legend(legend)
+    fig2=plt.gcf()
+    buf2=io.BytesIO()
+    fig2.savefig(buf2,format="png")
+    buf2.seek(0)
+    st=base64.b64encode(buf2.read())
+    url3=urllib.parse.quote(st)
+
+    plt.clf()
+
+    return render(request,"TPO/analytics.html",{"bar":url,"pie":url1,"bar1":url2 , "bar2": url3})
 
 class NewsListView(ListView):
     model = News
