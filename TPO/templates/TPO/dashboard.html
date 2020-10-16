@@ -1,0 +1,363 @@
+{% load static%}
+<html>
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'TPO/main.css' %}">
+
+        {% if title%}
+        <title>TPO - {{title}}</title>
+        {%else%}
+        <title>TPO</title>
+        {%endif%}
+        
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Heebo:400,700|Open+Sans:400,700');
+
+            :root {
+            --color: #3c3163;
+            --transition-time: 0.5s;
+            }
+
+            * {
+            box-sizing: border-box;
+            }
+
+            body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Open Sans';
+            background: #fafafa;
+            }
+
+            a {
+            color: inherit;
+            }
+
+            .cards-wrapper {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 4rem;
+            padding: 4rem;
+            margin: 0 auto;
+            width: max-content;
+            }
+
+            .card {
+            font-family: 'Heebo';
+            --bg-filter-opacity: 0.5;
+            background-image: linear-gradient(rgba(0,0,0,var(--bg-filter-opacity)),rgba(0,0,0,var(--bg-filter-opacity))), var(--bg-img);
+            height: 20em;
+            width: 15em;
+            font-size: 1.5em;
+            color: white;
+            border-radius: 1em;
+            padding: 1em;
+            /*margin: 2em;*/
+            display: flex;
+            align-items: flex-end;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 5em -1em black;
+            transition: all, var(--transition-time);
+            position: relative;
+            overflow: hidden;
+            border: 10px solid #ccc;
+            text-decoration: none;
+            }
+
+            .card:hover {
+            transform: rotate(0);
+            }
+
+            .card h1 {
+            margin: 0;
+            font-size: 1.5em;
+            line-height: 1.2em;
+            }
+
+            .card p {
+            font-size: 0.75em;
+            font-family: 'Open Sans';
+            margin-top: 0.5em;
+            line-height: 2em;
+            }
+
+            .card .tags {
+            display: flex;
+            }
+
+            .card .tags .tag {
+            font-size: 0.75em;
+            background: rgba(255,255,255,0.5);
+            border-radius: 0.3rem;
+            padding: 0 0.5em;
+            margin-right: 0.5em;
+            line-height: 1.5em;
+            transition: all, var(--transition-time);
+            }
+
+            .card:hover .tags .tag {
+            background: var(--color);
+            color: white;
+            }
+
+            .card .date {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 0.75em;
+            padding: 1em;
+            line-height: 1em;
+            opacity: .8;
+            }
+
+            .card:before, .card:after {
+            content: '';
+            transform: scale(0);
+            transform-origin: top left;
+            border-radius: 50%;
+            position: absolute;
+            left: -50%;
+            top: -50%;
+            z-index: -5;
+            transition: all, var(--transition-time);
+            transition-timing-function: ease-in-out;
+            }
+
+            .card:before {
+            background: #ddd;
+            width: 250%;
+            height: 250%;
+            }
+
+            .card:after {
+            background: white;
+            width: 200%;
+            height: 200%;
+            }
+
+            .card:hover {
+            color: var(--color);
+            }
+
+            .card:hover:before, .card:hover:after {
+            transform: scale(1);
+            }
+
+            .card-grid-space .num {
+            font-size: 3em;
+            margin-bottom: 1.2rem;
+            margin-left: 1rem;
+            }
+
+            .info {
+            font-size: 1.2em;
+            display: flex;
+            padding: 1em 3em;
+            height: 3em;
+            }
+
+            .info img {
+            height: 3em;
+            margin-right: 0.5em;
+            }
+
+            .info h1 {
+            font-size: 1em;
+            font-weight: normal;
+            }
+
+            /* MEDIA QUERIES */
+            @media screen and (max-width: 1285px) {
+            .cards-wrapper {
+                grid-template-columns: 1fr 1fr;
+            }
+            }
+
+            @media screen and (max-width: 900px) {
+            .cards-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .info {
+                justify-content: center;
+            }
+            .card-grid-space .num {
+                margin-left: 0;
+                text-align: center;
+            }
+            }
+
+            @media screen and (max-width: 500px) {
+            .cards-wrapper {
+                padding: 4rem 2rem;
+            }
+            .card {
+                max-width: calc(100vw - 4rem);
+            }
+            }
+
+            @media screen and (max-width: 450px) {
+            .info {
+                display: block;
+                text-align: center;
+            }
+            .info h1 {
+                margin: 0;
+            }
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+              <div class="container">
+                <a class="navbar-brand mr-4" href="{% url 'TPO-dashboard' %}">Dashboard</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                  <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="{% url 'TPO-home' %}">Home</a>
+                    <a class="nav-item nav-link" href="{% url 'TPO-about' %}">About</a>
+                  </div>
+                  <!-- Navbar Right Side -->
+                  <div class="navbar-nav">
+                    {% if user.is_authenticated %}
+                      <a class="nav-item nav-link" href="{% url 'TPO-analytics' %}" >Analytics</a>
+                      <a class="nav-item nav-link" href="https://www.interviewbit.com/practice/">Practise</a>
+                      <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                      <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                      <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                      <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                    {% endif%}
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </header>
+
+          <br>
+          <br>
+          {% for grid in Grid %}
+            <section class="cards-wrapper">
+              {% for company in grid%}
+              <div class="card-grid-space">
+                <a class="card" href="{% url 'company-detail' company.id %}" style="--bg-img: url({{ company.background }})">
+                  <div>
+                    <h1>{{ company.title }}</h1>
+                    <p>{{ company.description }}</p>
+                    <div class="date">{{ company.date|date:"F d, Y" }}</div>
+                    <div class="tags">
+                      <div class="tag">{{ company.Status }}</div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
+            </section>
+          {% endfor %}
+<!--
+
+         
+          <section class="cards-wrapper">
+            
+            <div class="card-grid-space">
+              <a class="card" href="#" style="--bg-img: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.imrfDlm1-fEEvbc-dKFRdAHaEc%26pid%3DApi&f=1)">
+                <div>
+                  <h1>Google</h1>
+                  <p>Google, LLC is an American multinational technology company that specializes in Internet-related services and products.</p>
+                  <div class="date">2020-22</div>
+                  <div class="tags">
+                    <div class="tag">OPEN</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="card-grid-space">
+              <a class="card" href="#" style="--bg-img: url(http://cdn-image.travelandleisure.com/sites/default/files/styles/medium_2x/public/1516291130/amazon-company-sign-HQSHORTLIST0118.jpg?itok=nwli9MMk)">
+                <div>
+                  <h1>Amazon</h1>
+                  <p>Amazon.com, Inc. is an American multinational technology company based in Seattle, Washington.</p>
+                  <div class="date">2020-21</div>
+                  <div class="tags">
+                    <div class="tag">CLOSED</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="card-grid-space">
+              <a class="card" href="#" style="--bg-img: url(https://technology.inquirer.net/files/2012/08/New-Microsoft-Logo.jpg)">
+                <div>
+                  <h1>Microsoft</h1>
+                  <p>Microsoft Corporation is an American multinational technology company with headquarters in Redmond, Washington.</p>
+                  <div class="date">2020-22</div>
+                  <div class="tags">
+                    <div class="tag">OPEN</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+--> 
+            <!-- https://images.unsplash.com/photo-1520839090488-4a6c211e2f94?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=38951b8650067840307cba514b554ba5&auto=format&fit=crop&w=1350&q=80 -->
+<!--         </section>
+
+
+          <section class="cards-wrapper">
+            
+            <div class="card-grid-space">
+              <a class="card" href="#" style="--bg-img: url(https://www.jpmorganchase.com/corporate/investor-relations/images/module-quarterly-earnings.png)">
+                <div>
+                  <h1>JPMC</h1>
+                  <p>JPMorgan Chase & Co. is an American multinational investment bank and financial services holding company headquartered in New York City.</p>
+                  <div class="date">2020-21</div>
+                  <div class="tags">
+                    <div class="tag">OPEN</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="card-grid-space">
+              <a class="card" href="#" style="--bg-img: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.CCOx7RLB-danM8Do4uih8gHaE8%26pid%3DApi&f=1)">
+                <div>
+                  <h1>Morgan Stanley</h1>
+                  <p>Morgan Stanley is an American multinational investment bank and financial services company headquartered at 1585 Broadway in the Morgan Stanley Building, Midtown Manhattan, New York City.</p>
+                  <div class="date">2020-21</div>
+                  <div class="tags">
+                    <div class="tag">CLOSED</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="card-grid-space">
+              <a class="card" href="#" style="--bg-img: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.w5a0ESoYhyWCvKO-TxhVNQHaHa%26pid%3DApi&f=1)">
+                <div>
+                  <h1>Deshush Bank</h1>
+                  <p>Deutsche Bank is a German multinational investment bank and financial services company headquartered in Frankfurt, Germany, and dual-listed in New York Stock Exchange and Frankfurt Stock Exchange.</p>
+                  <div class="date">2020-21</div>
+                  <div class="tags">
+                    <div class="tag">OPEN</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+-->             <!-- https://images.unsplash.com/photo-1520839090488-4a6c211e2f94?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=38951b8650067840307cba514b554ba5&auto=format&fit=crop&w=1350&q=80 -->
+<!--
+            </section>
+-->          
+        
+    </body>
+</html>
