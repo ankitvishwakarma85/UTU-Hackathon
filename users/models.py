@@ -6,6 +6,16 @@ class Profile(models.Model):
     user = models.OneToOneField(User , on_delete = models.CASCADE)
     year = (('FE','First Year'),('SE','Second Year'),('TE','Third Year'),('BE','Final Year'))
     branch = (('CS','Computer Science'),('IT','Information Technology'),('EXTC','Electronics and Telecommunication'),('ETRX','Electronics'))
+
+    skills = (
+        ('PYTHON DEV','Python Dev'),
+        ('JAVA DEV','Java Dev'),
+        ('FRONTEND DEV','Frontend Dev'),
+        ('BACKEND DEV','Backend Dev'),
+        ('FULLSTACK DEV','Fullstack Dev'),
+        ('DATA SCIENTIST','Data Scientist')
+    )
+
     FirstName = models.CharField(max_length = 100, default="")
     LastName = models.CharField(max_length=100,default="")
     Contact = models.DecimalField(decimal_places = 0 ,max_digits=10,default=0)
@@ -14,6 +24,7 @@ class Profile(models.Model):
     Year = models.CharField(max_length=10, choices = year,default="FE" )
     Branch = models.CharField(max_length=10, choices = branch,default="CS" )
     CGPA = models.DecimalField(decimal_places=2, default=8, max_digits=4)
+    Skills = models.CharField(max_length=20, choices = skills,default="JAVA DEV" )
     image = models.ImageField(default = 'default.jpg', upload_to = 'profilepics')
     Resume = models.FileField(default = 'Sample.pdf', upload_to = 'Resume')
 

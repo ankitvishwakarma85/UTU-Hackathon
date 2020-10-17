@@ -3,9 +3,10 @@ from django.http import HttpResponse
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.models import User
-from .models import News, Company, Query, Enrolled
+from .models import News, Company, Query, Enrolled , CompanyAnalytics
 import numpy as np
 from django.core.mail import send_mail
+from users.models import Profile
 
 # Create your views here.
 import matplotlib.pyplot as plt
@@ -18,8 +19,11 @@ def home(request):
     return render(request,'TPO/home.html',context)
 
 def analytics(request):
-    company_names = ['Consultancy','Core','Finance','FinTech','Product','Tech']
-    no_of_student_placed = [32,23,23,7,15,35]
+
+    company = CompanyAnalytics.objects.all()
+
+    company_names = list(company.values_list('ctype',flat=True).distinct())
+    no_of_student_placed = list(company.values_list('cplaced',flat=True))
     plt.bar(company_names,no_of_student_placed,color=('r','b','k','g','m','y'))
     fig=plt.gcf()
     buf=io.BytesIO()
@@ -161,15 +165,17 @@ class CompanyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return False
 
 
+
 class NewsCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = News
     success_url = '/'
-    
-
-    fields = ['title', 'content']
+    fields = ['title', 'content','Domain']
     
     def form_valid(self,form):
-        Email = User.objects.values_list('email',flat=True)
+        Specs = Profile.objects.filter(Skills = form.instance.Domain)
+        Email = []
+        for x in Specs:
+            Email.append(x.user.email)
         send_mail('New Announcement','Kindly visit the website to check!','avdeveloper00@gmail.com',Email)
         return super().form_valid(form)
     
@@ -209,7 +215,7 @@ class CompanyUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
 class NewsUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = News
     success_url = '/'
-    fields = ['title', 'content']
+    fields = ['title', 'content','Domain']
 
     def form_valid(self,form):
         Email = User.objects.values_list('email',flat=True)
@@ -302,3 +308,13 @@ def searchnews(request):
 
     else:
         return render(request, 'TPO/home.html')
+
+class EnrolledListView(ListView):
+    model = Enrolled
+    template_name = 'TPO/enrolled_user.html' #<app><model>_<viewtype>.html
+    context_object_name = 'applicants'
+    
+    def get_queryset(self):
+        company = get_object_or_404(Company, title = self.kwargs.get('title'))
+        return Enrolled.objects.filter(company=company)
+

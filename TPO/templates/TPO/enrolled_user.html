@@ -1,0 +1,21 @@
+{% extends 'TPO/base.html'%}
+{% block content %}
+
+    {% for applicant in applicants %}
+    <article class="media content-section">
+    <img class = "rounded-circle article-img" src = "{{ applicant.student.profile.image.url }}">
+    <div class="media-body">
+        <div class="article-metadata">
+        <a class="mr-2" href="">{{ applicant.student.username }}</a>
+        <small class="text-muted">{{ applicant.date_applied|date:"F d, Y" }}</small>
+        </div>
+        <h2><p class="article-title" >{{ applicant.student.profile.FirstName }} {{ applicant.student.profile.LastName }}</p></h2>
+        <p class="article-content">{{ applicant.student.profile.Contact }}</p>
+        <p class="article-content">{{ applicant.student.profile.Year}}-{{ applicant.student.profile.Branch }} </p>
+        <p class="article-content">{{ applicant.student.profile.CGPA }}</p>
+    </div>
+    </article>
+    {% endfor %}
+
+{% endblock content %}
+
