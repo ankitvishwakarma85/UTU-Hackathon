@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import NewsListView, NewsDetailView , CompanyDetailView , CompanyQueryListView , QueryCreateView , QueryDeleteView , QueryDeleteView , QueryUpdateView , CompanyCreateView, CompanyUpdateView, CompanyDeleteView
+from .views import NewsListView, NewsDetailView , CompanyDetailView , CompanyQueryListView ,NewsDeleteView, QueryCreateView , QueryDeleteView , QueryDeleteView , QueryUpdateView , CompanyCreateView, CompanyUpdateView,NewsUpdateView, CompanyDeleteView, NewsCreateView
 
 urlpatterns = [
     path('',views.dashboard , name = 'TPO-dashboard'),
@@ -18,4 +18,7 @@ urlpatterns = [
     path('query/<int:pk>/update/', QueryUpdateView.as_view() , name = 'query-update'),
     path('query/<int:pk>/delete/', QueryDeleteView.as_view() , name = 'query-delete'),
     path('search/news', views.searchnews, name = 'searchnews'),
+    path('news/new/', NewsCreateView.as_view() , name = 'news-create'),
+    path('news/<int:pk>/update', NewsUpdateView.as_view() , name = 'news-update'),
+    path('news/<int:pk>/delete', NewsDeleteView.as_view() , name = 'news-delete'),
 ]

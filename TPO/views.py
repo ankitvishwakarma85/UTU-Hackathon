@@ -19,7 +19,7 @@ def home(request):
 
 def analytics(request):
     company_names = ['Consultancy','Core','Finance','FinTech','Product','Tech']
-    no_of_student_placed = [8,3,5,7,15,35]
+    no_of_student_placed = [32,23,23,7,15,35]
     plt.bar(company_names,no_of_student_placed,color=('r','b','k','g','m','y'))
     fig=plt.gcf()
     buf=io.BytesIO()
@@ -39,7 +39,7 @@ def analytics(request):
 
     plt.clf()
     year = ['2016-17','2017-18','2018-19','2019-20']
-    salary_per_yr = [6.40,6.50,8.02,10.50]
+    salary_per_yr = [10.0,7.0,8.02,10.50]
     plt.bar(year,salary_per_yr,width=0.5)
     for index,data in enumerate(salary_per_yr):
         plt.text(x=index-0.1 , y =data//2 , s=f"{data}" , fontdict=dict(fontsize=10))
@@ -160,6 +160,24 @@ class CompanyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             return True
         return False
 
+
+class NewsCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = News
+    success_url = '/'
+    
+
+    fields = ['title', 'content']
+    
+    def form_valid(self,form):
+        Email = User.objects.values_list('email',flat=True)
+        send_mail('New Announcement','Kindly visit the website to check!','avdeveloper00@gmail.com',Email)
+        return super().form_valid(form)
+    
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
 class QueryUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Query
     success_url = '/'
@@ -188,6 +206,21 @@ class CompanyUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
             return True
         return False
 
+class NewsUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    model = News
+    success_url = '/'
+    fields = ['title', 'content']
+
+    def form_valid(self,form):
+        Email = User.objects.values_list('email',flat=True)
+        send_mail('Announcement Updated','Kindly visit the website to check!','avdeveloper00@gmail.com',Email)
+        return super().form_valid(form)
+    
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
 class QueryDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Query
     success_url = '/'
@@ -205,6 +238,18 @@ class QueryDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
 
 class CompanyDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Company
+    success_url = '/'
+
+    def form_valid(self,form):
+        return super().form_valid(form)
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+class NewsDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model = News
     success_url = '/'
 
     def form_valid(self,form):

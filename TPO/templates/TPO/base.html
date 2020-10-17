@@ -33,6 +33,7 @@
                     {% if user.is_authenticated %}
                       {% if user.is_staff %}
                         <a class="nav-item nav-link" href="{% url 'company-create' %}" >Add Company</a>
+                        <a class="nav-item nav-link" href="{% url 'news-create' %}" >Add News</a>
                       {% endif %}
                       <a class="nav-item nav-link" href="{% url 'TPO-analytics' %}" >Analytics</a>
                       <a class="nav-item nav-link" href="https://www.interviewbit.com/practice/" target="_blank" >Practise</a>
