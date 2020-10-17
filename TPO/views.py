@@ -5,6 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.models import User
 from .models import News, Company, Query, Enrolled
 import numpy as np
+from django.core.mail import send_mail
+
 # Create your views here.
 import matplotlib.pyplot as plt
 import io
@@ -108,10 +110,10 @@ def dashboard(request):
         Grid.append(Companies[i:i+3])
         i+=3
     if i<L:
-        Grid.append(Companies[i-1:])
+        Grid.append(Companies[i:])
     return render(request,'TPO/dashboard.html',{'Grid':Grid})
 
-class CompanyDetailView(DetailView):
+class CompanyDetailView(LoginRequiredMixin, DetailView):
     model = Company
 
     def get_context_data(self, **kwargs):
@@ -122,7 +124,7 @@ class CompanyDetailView(DetailView):
         if len(en)==0:
             context['check'] = True
         else:
-            context['check'] = False 
+            context['check'] = False
         return context
 
 class CompanyQueryListView(ListView):
@@ -145,6 +147,19 @@ class QueryCreateView(LoginRequiredMixin, CreateView):
         form.instance.company = Company.objects.get(title=self.kwargs.get('title'))
         return super().form_valid(form)
 
+class CompanyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Company
+    success_url = '/'
+    fields = ['title', 'description','background','Eligibility','Status']
+    
+    def form_valid(self,form):
+        return super().form_valid(form)
+    
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
 class QueryUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Query
     success_url = '/'
@@ -158,6 +173,18 @@ class QueryUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     def test_func(self):
         query = self.get_object()
         if self.request.user == query.student:
+            return True
+        return False
+
+class CompanyUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    model = Company
+    success_url = '/'
+    fields = ['title', 'description','background','Eligibility','Status']
+    def form_valid(self,form):
+        return super().form_valid(form)
+    
+    def test_func(self):
+        if self.request.user.is_staff:
             return True
         return False
 
@@ -175,6 +202,18 @@ class QueryDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
         if self.request.user == query.student:
             return True
         return False
+
+class CompanyDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model = Company
+    success_url = '/'
+
+    def form_valid(self,form):
+        return super().form_valid(form)
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 '''
 class EnrolledCreateView(LoginRequiredMixin, CreateView):
     
@@ -190,5 +229,6 @@ class EnrolledCreateView(LoginRequiredMixin, CreateView):
 '''
 
 def enrolled(request,title):
+    send_mail('Application', 'Hello ' + request.user.username + ',' + '\nYou have successfully applied for ' + title + '.', 'avdeveloper00@gmail.com', [request.user.email])
     enrolled = Enrolled.objects.create(student = request.user, company = Company.objects.get(title = title) )
     return redirect('TPO-home')
