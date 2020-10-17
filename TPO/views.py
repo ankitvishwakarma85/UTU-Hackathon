@@ -232,3 +232,28 @@ def enrolled(request,title):
     send_mail('Application', 'Hello ' + request.user.username + ',' + '\nYou have successfully applied for ' + title + '.', 'avdeveloper00@gmail.com', [request.user.email])
     enrolled = Enrolled.objects.create(student = request.user, company = Company.objects.get(title = title) )
     return redirect('TPO-home')
+
+def searchnews(request):
+    if request.method == 'GET':
+        query = request.GET.get('q')
+
+        submitbutton= request.GET.get('submit')
+
+        if query is not None:
+            #lookups= News(title__unaccent__icontains=query) | News(content__unaccent__icontains=query)
+
+            results= News.objects.filter(title__iregex=query).distinct()
+
+            context={'results': results,
+                     'submitbutton': submitbutton,
+                     'newss' : News.objects.all(),
+                     }
+
+
+            return render(request, 'TPO/home.html', context)
+
+        else:
+            return render(request, 'TPO/home.html')
+
+    else:
+        return render(request, 'TPO/home.html')

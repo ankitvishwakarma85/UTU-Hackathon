@@ -17,4 +17,5 @@ urlpatterns = [
     path('company/<int:pk>/delete', CompanyDeleteView.as_view() , name = 'company-delete'),
     path('query/<int:pk>/update/', QueryUpdateView.as_view() , name = 'query-update'),
     path('query/<int:pk>/delete/', QueryDeleteView.as_view() , name = 'query-delete'),
+    path('search/news', views.searchnews, name = 'searchnews'),
 ]
