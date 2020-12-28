@@ -1,12 +1,12 @@
 # UTU HACKATHON
-A Website handling all training placement use cases and provides an effective and transparent process flow.
-This is our project for Hackin UTU Hackathon, A national Level hackathon where we managed to be in top 25 (out of 400+ teams) Finalists.
+          A Website handling all training placement use cases and provides an effective and transparent process flow.
+          This is our project for Hackin UTU Hackathon, A national Level hackathon where we managed to be in top 25 (out of 400+ teams) Finalists.
 
 ## Features
-1)Users - Training Placement Officer: Admin
+ 1)Users - Training Placement Officer: Admin
           - Training Placement Coordinator: Staff
           - Students
-2)Company - 
+ 2)Company - 
  3)Query - 
  4)News/Annoucements - 
  5)Analytics - 
