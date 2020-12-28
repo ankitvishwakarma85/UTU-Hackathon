@@ -17,10 +17,10 @@
           9)Search            - Students can search for specific news/announcements based on entered keyword.
   
 ## Team
- 1)Jash Gandhi - https://github.com/JazzGandhi .
- 2)Ankit Vishwakarma - https://github.com/ankitvishwakarma85 .
- 3)Aayush Gosar - https://github.com/Aayush-Gosar . 
- 4)Manav Ranawat - https://github.com/ManavRanawat .
- 5)Rhythm - https://github.com/rhythm-munot .
+ 1)Jash Gandhi - https://github.com/JazzGandhi
+ 2)Ankit Vishwakarma - https://github.com/ankitvishwakarma85
+ 3)Aayush Gosar - https://github.com/Aayush-Gosar
+ 4)Manav Ranawat - https://github.com/ManavRanawat
+ 5)Rhythm - https://github.com/rhythm-munot
 
 For any queries/suggestions contact on *ankitvishwakarma85@gmail.com*
