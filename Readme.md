@@ -6,7 +6,7 @@
 ## Features
  1)Users - Training Placement Officer: Admin
           - Training Placement Coordinator: Staff
-          - Students.
+          - Students
  2)Company - 
  3)Query - 
  4)News/Annoucements - 
