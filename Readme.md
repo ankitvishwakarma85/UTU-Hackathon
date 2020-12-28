@@ -4,14 +4,14 @@
           A national Level hackathon where we managed to be in top 25 (out of 400+ teams) Finalists.
 
 ## Features
- 1)Users - Training Placement Officer: Admin
-          - Training Placement Coordinator: Staff
-          - Students
- 2)Company - 
- 3)Query - 
- 4)News/Annoucements - 
- 5)Analytics - 
- 6)Applications - 
+          1)Users   - Training Placement Officer: Admin
+                    - Training Placement Coordinator: Staff
+                    - Students
+          2)Company - 
+          3)Query - 
+          4)News/Annoucements - 
+          5)Analytics - 
+          6)Applications - 
   
 ## Team
  1)Jash Gandhi
