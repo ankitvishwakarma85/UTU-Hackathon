@@ -5,8 +5,8 @@
 
 ## Features
           1) Users             - Training Placement Officer(TPO) : Admin     -> Can view all users/profile, add/delete/update companies/company details/news/placement data,answer queries, manage users/applicants.
-                              - Training Placement Coordinator(TPC) : Staff -> Can add/delete/update companies/company details/news/placement data,answer queries.
-                              - Students                                    -> Ask query, apply for companies, update his/her profile/queries/applications, practice, view real-time analytics/graph of previous placements.
+                               - Training Placement Coordinator(TPC) : Staff -> Can add/delete/update companies/company details/news/placement data,answer queries.
+                               - Students                                    -> Ask query, apply for companies, update his/her profile/queries/applications, practice, view real-time analytics/graph of previous placements.
           2) Company           - Various companies,its details, vacancies are displayed.
           3) Query             - Students can post query under any company
           4) News              - TPO/TPC can post news/annoucement and a mail regarding the same is recieved by students os the concerned domain/specialization.
